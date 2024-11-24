@@ -1,0 +1,17 @@
+---
+layout: post
+title:  "1. Simple Bash Scripts for Automation"
+date:   2024-11-22 01:01:00 +0000
+categories: devops script bash
+
+---
+### Description
+  Create a set of Bash scripts to automate common administrative tasks, such as
+   cleaning up log files, backing up important data, or updating the system. This
+   project will help you learn basic scripting concepts, conditionals, loops, and
+   how to use shell commands effectively.
+  
+
+Remove old logs
+
+Back Up a Directory
