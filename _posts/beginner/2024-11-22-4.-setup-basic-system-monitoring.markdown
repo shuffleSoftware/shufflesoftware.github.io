@@ -1,0 +1,12 @@
+---
+layout: post
+title:  "Setup-basic-system monitoring"
+date:   2024-11-22 01:01:00 +0000
+categories: beginner
+
+---
+
+Install and configure basic monitoring tools like top, htop, uptime, and df to track system metrics like CPU load, memory usage, and disk space. Learn to set alerts based on these metrics to get notified if resource usage exceeds certain thresholds.
+
+
+### Examples

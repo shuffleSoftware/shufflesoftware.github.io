@@ -1,0 +1,12 @@
+---
+layout: post
+title:  "Simple Server provisioning with Ansible"
+date:   2024-11-22 01:01:00 +0000
+categories: beginner
+
+---
+
+Write a basic Ansible playbook to provision a new server. Tasks may include installing a web server, creating users, and setting permissions. This project introduces you to Infrastructure as Code (IaC) concepts and Ansible's declarative syntax.
+
+
+### Examples

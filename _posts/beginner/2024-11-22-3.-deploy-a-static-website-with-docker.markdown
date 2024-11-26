@@ -1,0 +1,12 @@
+---
+layout: post
+title:  "Deploy a static website with Docker"
+date:   2024-11-22 01:01:00 +0000
+categories: beginner
+
+---
+
+Create a simple HTML/CSS website, package it into a Docker container, and run it on a local server. This project teaches the basics of Dockerfile creation, image building, and running Docker containers.
+
+
+### Examples
