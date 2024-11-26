@@ -1,3 +1,6 @@
+## Jekyll docs
+https://jekyllrb.com/docs/variables/
+
 ### Generating ssh key
 
 #### Linux

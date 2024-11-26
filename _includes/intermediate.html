@@ -1,0 +1,9 @@
+<ul>
+    {% assign beginner_posts = site.posts | where_exp: "post", "post.categories contains 'intermediate'" %}
+
+    {% for post in beginner_posts %}
+    <li>
+        <a href="{{ post.url }}" target="_blank">[intermediate] - {{ post.slug | replace: '-', ' ' | capitalize }}</a>
+    </li>
+    {% endfor %}
+</ul>
