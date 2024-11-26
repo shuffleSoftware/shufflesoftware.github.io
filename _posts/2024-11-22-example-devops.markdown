@@ -3,8 +3,6 @@ layout: post
 title:  "DevOps project ideas to build your skills from beginner to advanced"
 date:   2024-11-22 01:00:00 +0000
 categories: devops
-
-
 ---
 
 Based on [medium post][medium-post], I'll create the minimal working code based on each project.

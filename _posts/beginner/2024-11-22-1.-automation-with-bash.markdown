@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Simple automation with bash"
+title:  "[beginner] Simple automation with bash"
 date:   2024-11-22 01:01:00 +0000
 categories: beginner
 
