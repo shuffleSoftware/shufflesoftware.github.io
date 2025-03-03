@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Mindmap</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            /* Prevents body scrolling */
+        }
+
+        #svg-container {
+            width: 900px;
+            /* Fixed container width */
+            height: 700px;
+            /* Fixed container height */
+            overflow: auto;
+            /* Enables scrolling when SVG exceeds container size */
+            border: 1px solid #ccc;
+            /* Optional: for visibility */
+        }
+
+        svg {
+            display: block;
+            /* Removes extra space below SVG */
+        }
+
+        #tooltip {
+            position: absolute;
+            background: white;
+            border: 1px solid black;
+            padding: 5px;
+            display: none;
+            /* Hidden by default */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="btnContainer"></div>
+    <div id="svg-container">
+        <svg id="mindmap-svg"></svg>
+    </div>
+    <div id="tooltip"></div>
+    <script>
+        (() => {
+            const mindmapData = {
+                name: "Kubernetes",
+                description: "An open-source container orchestration platform for automating deployment, scaling, and management of containerized applications.",
+                image: "Kubernetes.png",
+                children: [
+                    {
+                        name: "Cluster Architecture",
+                        description: "The overall structure of a Kubernetes cluster, consisting of master and worker nodes.",
+                        children: [
+                            {
+                                name: "Master Node",
+                                description: "The control plane of the cluster, responsible for managing the cluster's state.",
+                                children: [
+                                    {
+                                        name: "API Server",
+                                        description: "The front-end for the Kubernetes control plane, exposing the Kubernetes API.",
+                                    },
+                                    {
+                                        name: "Scheduler",
+                                        description: "Assigns nodes to newly created pods based on resource requirements and constraints.",
+                                    },
+                                    {
+                                        name: "Controller Manager",
+                                        description: "Runs background controllers to manage cluster state, such as replication controllers.",
+                                    },
+                                    {
+                                        name: "etcd",
+                                        description: "A distributed key-value store that holds the cluster's configuration and state.",
+                                    }
+                                ]
+                            },
+                            {
+                                name: "Worker Node",
+                                description: "Nodes that run the application workloads, managed by the master node.",
+                                children: [
+                                    {
+                                        name: "Kubelet",
+                                        description: "An agent that ensures containers within pods are running as expected.",
+                                    },
+                                    {
+                                        name: "Container Runtime",
+                                        description: "Software (e.g., Docker, containerd) responsible for running containers.",
+                                    },
+                                    {
+                                        name: "Kube-proxy",
+                                        description: "Manages network rules on nodes for pod communication.",
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        name: "Workload Management",
+                        description: "Managing the deployment, scaling, and operation of application workloads.",
+                        children: [
+                            {
+                                name: "Namespaces",
+                                description: "Logical partitions of cluster resources for organization and multi-tenancy.",
+                            },
+                            {
+                                name: "Pods",
+                                description: "The smallest deployable units in Kubernetes, containing one or more containers.",
+                                children: [
+                                    {
+                                        name: "Containers",
+                                        description: "The core units encapsulated within pods, running applications.",
+                                    },
+                                    {
+                                        name: "Volumes",
+                                        description: "Storage attached to pods for data persistence or sharing.",
+                                    },
+                                    {
+                                        name: "Lifecycle",
+                                        description: "States and management of pod creation, running, and termination.",
+                                    }
+                                ]
+                            },
+                            {
+                                name: "Deployments",
+                                description: "Manages the deployment and scaling of a set of pods, ensuring the desired state.",
+                                children: [
+                                    {
+                                        name: "ReplicaSets",
+                                        description: "Ensures a specified number of pod replicas are running at all times.",
+                                    }
+                                ]
+                            },
+                            {
+                                name: "StatefulSets",
+                                description: "Manages stateful applications with persistent identities and storage.",
+                            },
+                            {
+                                name: "DaemonSets",
+                                description: "Ensures a pod runs on every node, typically for logging or monitoring.",
+                            },
+                            {
+                                name: "Jobs",
+                                description: "Manages one-off tasks that run to completion.",
+                            },
+                            {
+                                name: "CronJobs",
+                                description: "Schedules jobs to run at specific times or intervals.",
+                            }
+                        ]
+                    },
+                    {
+                        name: "Networking",
+                        description: "Managing communication between pods and external services.",
+                        children: [
+                            {
+                                name: "Services",
+                                description: "Abstractions that define a logical set of pods and a policy to access them.",
+                                children: [
+                                    {
+                                        name: "ClusterIP",
+                                        description: "Default service type, exposing pods internally within the cluster.",
+                                    },
+                                    {
+                                        name: "NodePort",
+                                        description: "Exposes a service on a specific port of each node.",
+                                    },
+                                    {
+                                        name: "LoadBalancer",
+                                        description: "Exposes a service externally via a cloud provider's load balancer.",
+                                    }
+                                ]
+                            },
+                            {
+                                name: "Ingress",
+                                description: "Manages external HTTP/HTTPS traffic to services, often with routing rules.",
+                            },
+                            {
+                                name: "Network Policies",
+                                description: "Defines rules for pod-to-pod communication within the cluster.",
+                            }
+                        ]
+                    },
+                    {
+                        name: "Storage",
+                        description: "Managing persistent storage for applications.",
+                        children: [
+                            {
+                                name: "Volumes",
+                                description: "Temporary or persistent storage attached to pods.",
+                            },
+                            {
+                                name: "PersistentVolumes",
+                                description: "Cluster-wide storage resources provisioned by an administrator.",
+                            },
+                            {
+                                name: "PersistentVolumeClaims",
+                                description: "Requests for storage by users, bound to PersistentVolumes.",
+                            },
+                            {
+                                name: "StorageClasses",
+                                description: "Templates for dynamically provisioning storage with specific properties.",
+                            }
+                        ]
+                    },
+                    {
+                        name: "Configuration & Secrets",
+                        description: "Managing configuration data and sensitive information.",
+                        children: [
+                            {
+                                name: "ConfigMaps",
+                                description: "Stores non-sensitive configuration data for pods or applications.",
+                            },
+                            {
+                                name: "Secrets",
+                                description: "Stores sensitive data (e.g., passwords, keys) securely for use by pods.",
+                            }
+                        ]
+                    },
+                    {
+                        name: "Security",
+                        description: "Ensuring the security and access control within the cluster.",
+                        image: "default.png",
+                        children: [
+                            {
+                                name: "Service Accounts",
+                                description: "Identities for processes in pods to interact with the Kubernetes API.",
+                            },
+                            {
+                                name: "RBAC",
+                                description: "Manages permissions for users and service accounts.",
+                                children: [
+                                    {
+                                        name: "Roles",
+                                        description: "Defines permissions within a namespace.",
+                                    },
+                                    {
+                                        name: "RoleBindings",
+                                        description: "Assigns roles to users or service accounts within a namespace.",
+                                    },
+                                    {
+                                        name: "ClusterRoles",
+                                        description: "Defines permissions across the entire cluster.",
+                                    },
+                                    {
+                                        name: "ClusterRoleBindings",
+                                        description: "Assigns cluster-wide roles to users or service accounts.",
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            // Functions to manage local storage
+            function getClickedNodes() {
+                const clicked = localStorage.getItem('clickedNodes');
+                return clicked ? JSON.parse(clicked) : []; // Return empty array if no data
+            }
+
+            function setClickedNodes(clickedNodes) {
+                localStorage.setItem('clickedNodes', JSON.stringify(clickedNodes));
+            }
+            function getClickedNodes() {
+                const clicked = localStorage.getItem('clickedNodes');
+                return clicked ? JSON.parse(clicked) : []; // Return empty array if no data
+            }
+
+            function setClickedNodes(clickedNodes) {
+                localStorage.setItem('clickedNodes', JSON.stringify(clickedNodes));
+            }
+            // Get SVG and tooltip elements
+            const svg = document.getElementById("mindmap-svg");
+            const tooltip = document.getElementById("tooltip");
+
+            // Initialize bounding box variables to calculate SVG size
+            let minX = Infinity;
+            let maxX = -Infinity;
+            let minY = Infinity;
+            let maxY = -Infinity;
+
+            // Function to create a node with hover functionality
+            function createNode(x, y, name, description, color, radius = 20, image) {
+                const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                group.addEventListener("click", () => {
+                    let updatedClickedNodes = getClickedNodes();
+                    if (!updatedClickedNodes.includes(name)) {
+                        updatedClickedNodes.push(name); // Add to clicked list
+                        setClickedNodes(updatedClickedNodes); // Update local storage
+                    }
+                    text.setAttribute("text-decoration", "line-through"); // Update UI
+                    if (image) {
+                        window.open(`assets/${image}`, "_blank");
+                    }
+                });
+                // Create circle
+                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute("cx", x);
+                circle.setAttribute("cy", y);
+                circle.setAttribute("r", radius);
+                circle.setAttribute("fill", color);
+                group.appendChild(circle);
+
+                // Create text
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", x);
+                text.setAttribute("y", y);
+                text.setAttribute("text-anchor", "middle");
+                text.setAttribute("dy", "0.3em");
+                text.textContent = name;
+                group.appendChild(text);
+
+                // Check if this node was previously clicked
+                const clickedNodes = getClickedNodes();
+                if (clickedNodes.includes(name)) {
+                    text.setAttribute("text-decoration", "line-through");
+                }
+
+                // Append group to SVG
+                svg.appendChild(group);
+
+                // Update bounding box using the group's bounding box
+                const bbox = group.getBBox();
+                minX = Math.min(minX, bbox.x);
+                maxX = Math.max(maxX, bbox.x + bbox.width);
+                minY = Math.min(minY, bbox.y);
+                maxY = Math.max(maxY, bbox.y + bbox.height);
+
+                // Add hover events for tooltip
+                group.addEventListener("mouseover", (event) => {
+                    tooltip.textContent = description;
+                    tooltip.style.left = `${event.pageX + 10}px`;
+                    tooltip.style.top = `${event.pageY + 10}px`;
+                    tooltip.style.display = "block";
+                });
+                group.addEventListener("mouseout", () => {
+                    tooltip.style.display = "none";
+                });
+
+
+                return group;
+            }
+
+            // Define center of the mindmap
+            const centerX = 450; // Adjusted to center within potential SVG size
+            const centerY = 350;
+
+            // Create central node
+            const centralNode = createNode(centerX, centerY, mindmapData.name, mindmapData.description, "lightblue", 30, mindmapData.image);
+
+            // Calculate angles for main branches
+            const mainBranches = mindmapData.children || [];
+            const numMainBranches = mainBranches.length;
+            const angleIncrement = numMainBranches > 0 ? 360 / numMainBranches : 0;
+
+            // Create main branches and sub-branches
+            mainBranches.forEach((branch, index) => {
+                const angleDeg = index * angleIncrement;
+                const angleRad = (angleDeg * Math.PI) / 180;
+                const mainDistance = 200; // Distance from center to main branches
+                const x = centerX + mainDistance * Math.cos(angleRad);
+                const y = centerY + mainDistance * Math.sin(angleRad);
+
+                // Draw line to main branch
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", centerX);
+                line.setAttribute("y1", centerY);
+                line.setAttribute("x2", x);
+                line.setAttribute("y2", y);
+                line.setAttribute("stroke", "black");
+                svg.appendChild(line);
+
+                // Update bounding box with line endpoints
+                minX = Math.min(minX, centerX, x);
+                maxX = Math.max(maxX, centerX, x);
+                minY = Math.min(minY, centerY, y);
+                maxY = Math.max(maxY, centerY, y);
+
+                // Create main branch node
+                const mainNode = createNode(x, y, branch.name, branch.description, "lightgreen", 20, branch.image);
+
+                // Handle sub-branches
+                const subBranches = branch.children || [];
+                const numSubBranches = subBranches.length;
+                if (numSubBranches > 0) {
+                    const angleSpread = Math.min(60, 10 * numSubBranches);
+                    const angleOffset = numSubBranches > 1 ? angleSpread / (numSubBranches - 1) : 0;
+
+                    subBranches.forEach((subBranch, subIndex) => {
+                        const subAngleDeg = angleDeg + (subIndex - (numSubBranches - 1) / 2) * angleOffset;
+                        const subAngleRad = (subAngleDeg * Math.PI) / 180;
+                        const subDistance = 350; // Distance from center to sub-branches
+                        const subX = centerX + subDistance * Math.cos(subAngleRad);
+                        const subY = centerY + subDistance * Math.sin(subAngleRad);
+
+                        // Draw line to sub-branch
+                        const subLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                        subLine.setAttribute("x1", x);
+                        subLine.setAttribute("y1", y);
+                        subLine.setAttribute("x2", subX);
+                        subLine.setAttribute("y2", subY);
+                        subLine.setAttribute("stroke", "black");
+                        svg.appendChild(subLine);
+
+                        // Update bounding box with sub-line endpoints
+                        minX = Math.min(minX, x, subX);
+                        maxX = Math.max(maxX, x, subX);
+                        minY = Math.min(minY, y, subY);
+                        maxY = Math.max(maxY, y, subY);
+
+                        // Create sub-branch node
+                        createNode(subX, subY, subBranch.name, subBranch.description, "lightyellow", 15, subBranch.image);
+                    });
+                }
+            });
+
+            // Set SVG size based on bounding box with a margin
+            const margin = 50;
+            const svgWidth = maxX - minX + 2 * margin;
+            const svgHeight = maxY - minY + 2 * margin;
+            svg.setAttribute("width", svgWidth);
+            svg.setAttribute("height", svgHeight);
+            svg.setAttribute("viewBox", `${minX - margin} ${minY - margin} ${svgWidth} ${svgHeight}`);
+        })()
+    </script>
+</body>
+
+</html>
