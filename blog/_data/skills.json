@@ -1,0 +1,62 @@
+[
+    {
+        "link": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Microsoft_Azure.svg/1200px-Microsoft_Azure.svg.png",
+        "name": "azure"
+    },
+    {
+        "link": "https://sps-lab.org/post/2024_windows_bash/featured.png",
+        "name": "bash"
+    },
+    {
+        "link": "https://skillforge.com/wp-content/uploads/2022/06/powershell.png",
+        "name": "powershell"
+    },
+    {
+        "link": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/800px-Python-logo-notext.svg.png",
+        "name": "python"
+    },
+    {
+        "link": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUTc3wwVFk4RrsQHsAafyJYQOkKwrb7WSIiQ&s",
+        "name": "golang"
+    },
+    {
+        "link": "https://avatars.githubusercontent.com/u/18133?s=280&v=4",
+        "name": "git"
+    },
+    {
+        "link": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/180px-GitHub_Invertocat_Logo.svg.png",
+        "name": "github"
+    },
+    {
+        "link": "https://hashicorp.gallerycdn.vsassets.io/extensions/hashicorp/terraform/2.34.2025012311/1737653333518/Microsoft.VisualStudio.Services.Icons.Default",
+        "name": "Terraform"
+    },
+    {
+        "link": "https://gitlab.com/uploads/-/system/group/avatar/6543/logo-extra-whitespace.png",
+        "name": "Gitlab"
+    },
+    {
+        "link": "https://pbs.twimg.com/profile_images/1816856437567406080/ByISu1ft_400x400.jpg",
+        "name": "Docker"
+    },
+    {
+        "link": "https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg",
+        "name": "Kubernetes"
+    },
+    {
+        "link": "https://miro.medium.com/v2/resize:fit:400/1*YcByGZNVtb6cGO4FQLr0mw.jpeg",
+        "name": "Helm"
+    },
+    {
+        "link": "https://icon.icepanel.io/Technology/svg/Argo-CD.svg",
+        "name": "argocd"
+    },
+    {
+        "link": "https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/3/grafana-ipeuuhi0ws3fbikv7ojrk.png/grafana-625ktq51icaz2carazn0n.png",
+        "name": "grafana"
+    },
+    {
+        "link": "https://static-00.iconduck.com/assets.00/prometheus-icon-2047x2048-b3aicxlu.png",
+        "name": "Prometheus"
+    }
+]
