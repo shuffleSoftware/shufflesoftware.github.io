@@ -4,15 +4,30 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+## Projects
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+* *Bank*
+* *Operations*
+* *Multimedia streaming management*
+* *DevOps assessment*
+* *Sports betting*
+* *Retail*
+* *Entertainment* (streaming):
+* *Payroll system*
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
 
 
-[jekyll-organization]: https://github.com/jekyll
+## Tools
+
+{% for item in site.data.skills %}
+ <div style="display: inline-block; padding: 0 25px; height: 50px; font-size: 16px; line-height: 50px; border-radius: 25px; background-color: #f1f1f1;">
+  <img src="{{ item.link }}" alt="{{ item.name }}" style="float: left; margin: 0 10px 0 -25px; height: 50px; width: 50px; border-radius: 50%;">{{ item.name }}</div>
+{% endfor %}
+
+<br>
+- Other tools (not often used ): Barracuda WAF, Akamai, Harbor, Jenkins, CVAT, MediaMTX, OpenLDAP, Istio, Nvidia Morpheus, IIS
+
+## Certifications
+* Certified Kubernetes Administrator
+* Azure Administrator Associate
+* Terraform Associate
